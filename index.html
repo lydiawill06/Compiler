@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Data Compiler</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Data Compiler</h1>
+    <p class="subtitle">Combine any number of CSV/Excel files into one table, merging copies of the same data.</p>
+  </header>
+
+  <main>
+    <section class="panel" id="import-panel">
+      <h2>1. Import files</h2>
+      <p class="hint">Accepts .csv, .xlsx, and .xls files (the first sheet of each workbook is used). Add as many as you need.</p>
+      <label class="file-drop" id="file-drop">
+        <input type="file" id="file-input" multiple accept=".csv,.xlsx,.xls" />
+        <span>Click to choose files, or drag &amp; drop here</span>
+      </label>
+
+      <ul id="file-list"></ul>
+      <p id="status" role="status"></p>
+    </section>
+
+    <section class="panel" id="match-panel" hidden>
+      <h2>2. Choose how to spot copies</h2>
+      <p class="hint">
+        Rows that have the same values in every checked column are treated as copies of the same
+        record and merged into one row (ignoring case and extra spaces). Check every column to only
+        merge exact copies. The default is a guess &mdash; adjust it if needed.
+      </p>
+      <div class="chip-list" id="match-columns"></div>
+      <div class="actions">
+        <button id="compile-btn">Compile Files</button>
+        <button id="select-all-btn" class="secondary">Match on all columns</button>
+        <button id="suggest-btn" class="secondary">Reset to suggested</button>
+        <button id="clear-btn" class="secondary">Clear All</button>
+      </div>
+    </section>
+
+    <section class="panel" id="preview-panel" hidden>
+      <h2>3. Review compiled data</h2>
+      <div class="stats" id="stats"></div>
+      <p class="hint" id="summary-hint"></p>
+      <p class="legend">
+        <span class="swatch merged"></span> merged from several copies
+        <span class="swatch conflict"></span> copies disagreed (first value kept &mdash; hover to see all)
+        <span class="swatch new-col"></span> column added by a later file
+      </p>
+      <div class="table-scroll">
+        <table id="preview-table"></table>
+      </div>
+    </section>
+
+    <section class="panel" id="export-panel" hidden>
+      <h2>4. Export</h2>
+      <p class="hint">
+        Downloads a formatted .xlsx workbook with a "Compiled Data" sheet, plus "Duplicates",
+        "Conflicts", and "Columns" sheets explaining what was merged and where each column came from.
+      </p>
+      <div class="actions">
+        <button id="export-btn">Export as Excel (.xlsx)</button>
+        <button id="export-csv-btn" class="secondary">Export as CSV</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Runs entirely in your browser &mdash; files are never uploaded anywhere.</p>
+  </footer>
+
+  <script src="vendor/xlsx.full.min.js"></script>
+  <script src="vendor/exceljs.min.js"></script>
+  <script src="js/compiler.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
